@@ -57,6 +57,6 @@ Caused by: java.lang.OutOfMemoryError: Java heap space
 Reason:
 ======
 JVM heap space has young and old generation. When we have all in-memory fetches (which are in the border line of 1.1 GB; i.e max single fetch limit), we easily run into the borderline of old-gen capacity. JVM would not be able to allocate more mem in the old-gen (~5.5 GB in this case with 8 GB JVM).
-This leads to the OOM. Easy option would be reduce "tez.runtime.shuffle.merge.percent".
+This leads to the OOM. Easy option would be reduce "tez.runtime.shuffle.fetch.buffer.percent".
 
 With pipelinedshuffle this might not happen very frequently; Reason is that, with pipelined shuffle, data is sent to downstream vertex when spill happens (Note that pipelinedsorter can have more smaller spills in parallel). This would reduce the possibility of in-memory merges reaching the 1.1 GB threshold all times.
